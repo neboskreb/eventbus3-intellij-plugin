@@ -1,4 +1,4 @@
-package com.likfe.ideaplugin.eventbus3;
+package com.github.neboskreb.ideaplugin.eventbus3;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

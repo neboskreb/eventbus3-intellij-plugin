@@ -1,6 +1,6 @@
 package org.example;
 
-import com.likfe.ideaplugin.eventbus3.Posting;
+import com.github.neboskreb.ideaplugin.eventbus3.Posting;
 
 public interface IMyOtherBus {
     @Posting
