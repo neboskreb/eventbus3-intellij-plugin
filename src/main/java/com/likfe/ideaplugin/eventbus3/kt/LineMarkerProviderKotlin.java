@@ -18,7 +18,8 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiUtilBase;
 import com.intellij.ui.awt.RelativePoint;
 import com.likfe.ideaplugin.eventbus3.PsiUtils;
-import com.likfe.ideaplugin.eventbus3.ShowUsagesAction;
+import com.likfe.ideaplugin.eventbus3.ShowSendersAction;
+import com.likfe.ideaplugin.eventbus3.ShowReceiversAction;
 import com.likfe.ideaplugin.eventbus3.utils.Constants;
 import com.likfe.ideaplugin.eventbus3.utils.MLog;
 import org.jetbrains.annotations.NotNull;
@@ -111,7 +112,7 @@ public class LineMarkerProviderKotlin implements com.intellij.codeInsight.daemon
                             //KotlinEditorOptions options;
                             //findUsagesManager.findUsages(eventClass, null, );
 
-                            new ShowUsagesAction(new SenderFilterKotlin(eventClass))
+                            new ShowSendersAction(new SenderFilterKotlin(eventClass))
                                     .startFindUsages(
                                             postMethod,
                                             new RelativePoint(e),
@@ -146,7 +147,7 @@ public class LineMarkerProviderKotlin implements com.intellij.codeInsight.daemon
                             MLog.debug("kt SHOW_RECEIVERS 2: " + argument.getText());
                             KtClass ktClass = new KtClass(leafPsiElement.getNode());
                             MLog.debug("kt SHOW_RECEIVERS 3: " + ktClass.getText());
-                            new ShowUsagesAction(new ReceiverFilterKotlin())
+                            new ShowReceiversAction(new ReceiverFilterKotlin())
                                     .startFindUsages(
                                             ktClass, new RelativePoint(e),
                                             PsiUtilBase.findEditor(psiElement),

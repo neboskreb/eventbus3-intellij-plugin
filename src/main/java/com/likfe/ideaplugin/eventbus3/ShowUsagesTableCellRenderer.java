@@ -28,6 +28,7 @@ import com.intellij.usages.Usage;
 import com.intellij.usages.UsageGroup;
 import com.intellij.usages.UsagePresentation;
 import com.intellij.usages.impl.GroupNode;
+import com.intellij.usages.impl.NullUsage;
 import com.intellij.usages.impl.UsageNode;
 import com.intellij.usages.impl.UsageViewImpl;
 import com.intellij.usages.rules.UsageInFile;
@@ -41,6 +42,8 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
 class ShowUsagesTableCellRenderer implements TableCellRenderer {
+    public static final NullUsage MORE_USAGES_SEPARATOR = NullUsage.INSTANCE;
+    public static final UsageNode MORE_USAGES_SEPARATOR_NODE = UsageViewImpl.NULL_NODE;
 
     private final UsageViewImpl myUsageView;
 
@@ -61,7 +64,7 @@ class ShowUsagesTableCellRenderer implements TableCellRenderer {
         panel.setBackground(isSelected ? bg : fileBgColor == null ? list.getBackground() : fileBgColor);
         panel.setForeground(isSelected ? fg : list.getForeground());
 
-        if (usage == null || usageNode instanceof ShowUsagesAction.StringNode) {
+        if (usage == null || usageNode instanceof ShowReceiversAction.StringNode) {
             panel.setLayout(new BorderLayout());
             if (column == 0) {
                 panel.add(new JLabel("<html><body><b>" + value + "</b></body></html>", SwingConstants.CENTER));
@@ -77,12 +80,12 @@ class ShowUsagesTableCellRenderer implements TableCellRenderer {
         if (column == 0) {
             GroupNode parent = (GroupNode) usageNode.getParent();
             appendGroupText(parent, panel, fileBgColor);
-            if (usage == ShowUsagesAction.MORE_USAGES_SEPARATOR) {
+            if (usage == MORE_USAGES_SEPARATOR) {
                 textChunks.append("...<");
                 textChunks.append("more usages", SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
                 textChunks.append(">...");
             }
-        } else if (usage != ShowUsagesAction.MORE_USAGES_SEPARATOR) {
+        } else if (usage != MORE_USAGES_SEPARATOR) {
             UsagePresentation presentation = usage.getPresentation();
             TextChunk[] text = presentation.getText();
 

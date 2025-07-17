@@ -9,7 +9,8 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiUtilBase;
 import com.intellij.ui.awt.RelativePoint;
 import com.likfe.ideaplugin.eventbus3.PsiUtils;
-import com.likfe.ideaplugin.eventbus3.ShowUsagesAction;
+import com.likfe.ideaplugin.eventbus3.ShowSendersAction;
+import com.likfe.ideaplugin.eventbus3.ShowReceiversAction;
 import com.likfe.ideaplugin.eventbus3.utils.Constants;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,9 +47,9 @@ public class LineMarkerProviderJava implements com.intellij.codeInsight.daemon.L
                         //post
                         PsiMethod postMethod = eventBusClass.findMethodsByName(Constants.FUN_NAME, false)[0];
                         if (null != postMethod) {
-                            PsiClass eventClass = ((PsiClassType) method.getParameterList().getParameters()[0].getTypeElement().getType()).resolve();
-
-                            new ShowUsagesAction(new SenderFilterJava(eventClass)).startFindUsages(postMethod, new RelativePoint(e), PsiUtilBase.findEditor(psiElement), Constants.MAX_USAGES);
+                            PsiType psiType = method.getParameterList().getParameters()[0].getType();
+                            SenderFilterJava filter = new SenderFilterJava(psiType);
+                            new ShowSendersAction(filter).startFindUsages(postMethod, new RelativePoint(e), PsiUtilBase.findEditor(psiElement), Constants.MAX_USAGES);
                         }
 
                         //postSticky
@@ -82,7 +83,7 @@ public class LineMarkerProviderJava implements com.intellij.codeInsight.daemon.L
                             if (expressionTypes.length > 0) {
                                 PsiClass eventClass = PsiUtils.getClass(expressionTypes[0]);
                                 if (eventClass != null) {
-                                    new ShowUsagesAction(new ReceiverFilterJava()).startFindUsages(eventClass, new RelativePoint(e), PsiUtilBase.findEditor(psiElement), Constants.MAX_USAGES);
+                                    new ShowReceiversAction(new ReceiverFilterJava()).startFindUsages(eventClass, new RelativePoint(e), PsiUtilBase.findEditor(psiElement), Constants.MAX_USAGES);
                                 }
                             }
                         } catch (Exception ee) {
